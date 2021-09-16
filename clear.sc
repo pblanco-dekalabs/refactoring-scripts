@@ -1,3 +1,4 @@
+#!/usr/local/bin/amm
 // This script clears the entire source tree
 import $file.config
 import config.Ext._
