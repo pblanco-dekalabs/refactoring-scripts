@@ -1,6 +1,5 @@
 #!/usr/local/bin/amm
-// This script clones, creates the branch and pushes it to
-// the forked repositories.
+// This script resets all changes in case of error.
 import $file.config
 import config.Ext._
 import scala.language.postfixOps
