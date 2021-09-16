@@ -63,21 +63,27 @@ object Ext {
   }
 }
 
+/** A recursive walker functor. 
+  */
+class Walker(val ignore: Set[String]) {
+  def apply(file: File)(fn: File => Unit): Unit = {
+    if (ignore.contains(file.getName)) {
+      return
+    }
+    if (file.isDirectory) {
+      for (f <- file.listFiles) {
+        this(f)(fn)
+      }
+    } else {
+      fn(file)
+    }
+  }
+}
+
 /** Creates a walker for the given ignore set, and starts
   * recursively walking the file tree.
   * @param ignore
   * @param file
   * @param fn
   */
-def walker(ignore: Set[String])(file: File)(fn: File => Unit): Unit = {
-  if (ignore.contains(file.getName)) {
-    return
-  }
-  if (file.isDirectory) {
-    for (f <- file.listFiles) {
-      walk(f)(fn)
-    }
-  } else {
-    fn(file)
-  }
-}
+def walker(ignore: String*) = new Walker(Set(ignore:_*))

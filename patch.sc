@@ -7,17 +7,10 @@ import scala.util.{ Success, Failure }
 import scala.util.{ Using }
 import scala.collection.JavaConverters._
 
-// Default ignore list
-val ignore = Set(
+// Recursive walker
+val walk = config.walker(
   ".git"
 )
-
-// Recursive walker
-val walk = walker(ignore)
-
-val regex = new {
-  val claPrefix = s"CLA_([A-Z_]+)".r
-}
 
 def patch(file: File)(implicit content: String): String = {
   val path = file.getAbsolutePath
