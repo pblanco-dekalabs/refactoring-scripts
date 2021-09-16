@@ -12,14 +12,24 @@ val walk = config.walker(
   ".git"
 )
 
-def patch(file: File)(implicit content: String): String = {
+val claUserPassRegex = "CLA_(USER|PASS|PASSWORD)".r
+val userOrNameVar = "((GENERATOR|IMPORTER|CONTENT_MANAGER|DEFAULT_ADMIN)_[A-Z_]+)".r
+
+def prefix(implicit source: String): String =
+  userOrNameVar replace "CLA_$1"
+
+def patch(file: File, content: String): String = {
   val path = file.getAbsolutePath
-  if (path has "generator") {
-    return "CLA_(USER|PASS)".r replace "CLA_GENERATOR_$1"
+  implicit val src = prefix(content)
+  return if ((path has "generator") || (path has "ftpuploader")) {
+    claUserPassRegex replace "CLA_GENERATOR_$1"
   } else if (path has "checker") {
-    return "CLA_(USER|PASS)".r replace "CLA_CHECKER_$1"
+    claUserPassRegex replace "CLA_CHECKER_$1"
+  } else if (path has "importer") {
+    claUserPassRegex replace "CLA_IMPORTER_$1"
+  } else {
+    src
   }
-  return content
 }
 
 // Walk each folder
@@ -32,7 +42,7 @@ config.urls.foreach { r =>
       case Success(contents) => {
         // If OK patch the sources
         print(s"Patching ${contents.length} bytes...")
-        patch(file)(contents) writeTo file
+        patch(file, contents) writeTo file
         println(s"Done")
       }
       case Failure(e) => println(s"Skip $e")
