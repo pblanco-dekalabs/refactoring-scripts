@@ -46,7 +46,7 @@ object Ext {
   implicit class StrExtCfg(s: String) {
     def file = new File(s)
     def dir = new scala.reflect.io.Directory(s.file)
-    def at(folder: String) = println(Process(s, folder.file).!!)
+    def at(folder: String) = Process(s, folder.file).!!
     def writeTo(file: File) = {
       Files.write(file.toPath, s.getBytes(StandardCharsets.UTF_8))
     }
