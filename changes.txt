@@ -1,0 +1,7 @@
+cla-videogenerator-to-api
+cla-videogenerator
+cla-ftpuploader
+cla-tcdndispatcher
+cla-importer
+cla-devops
+cla-cms
