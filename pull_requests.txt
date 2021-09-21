@@ -1,0 +1,7 @@
+cla-cms -> https://github.com/XTreamr/cla-cms/pull/353
+cla-devops -> https://github.com/XTreamr/cla-devops/pull/17
+cla-importer -> https://github.com/XTreamr/cla-importer/pull/20
+cla-tcdndispatcher -> https://github.com/XTreamr/cla-tcdndispatcher/pull/34
+cla-ftpuploader -> https://github.com/XTreamr/cla-ftpuploader/pull/23
+cla-videogenerator -> https://github.com/XTreamr/cla-videogenerator/pull/41
+cla-videogenerator-to-api -> https://github.com/XTreamr/cla-videogenerator-to-api/pull/2

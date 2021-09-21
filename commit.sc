@@ -17,7 +17,7 @@ config.urls.foreach { r =>
     println("Commit!")
     "git add ." at folder;
     "git commit -m \"Updated names for env vars. See https://jira.tid.es/browse/CLA-761.\"" at folder;
-    "git push" at folder;
+    "git push -f" at folder;
   } else {
     println("Skip")
   }

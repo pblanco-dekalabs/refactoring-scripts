@@ -15,6 +15,8 @@ import java.io.{
 import java.nio.file.{ Files, Path }
 import java.nio.charset.{ StandardCharsets }
 import scala.util.matching._
+import $ivy.`org.scalaj::scalaj-http:2.4.2`
+import scalaj.http.{ HttpOptions, HttpRequest }
 
 val github = "http://github.com/"
 val team = "pblanco-dekalabs"
@@ -60,6 +62,22 @@ object Ext {
   implicit class RegexExtCfg(r: Regex) {
     def replace(target: String)(implicit content: String) =
       r.replaceAllIn(content, target)
+  }
+  implicit class HttpExtCfg(req: HttpRequest) {
+    def json = ujson.read(req.asString.body)
+    def auth(token: String) =
+      req
+      .header("Accept", "application/vnd.github.v3+json")
+      .header("Authorization", s"token $token")
+      .header("Charset", "UTF-8")
+      .option(HttpOptions.readTimeout(10000))
+    def postJson(p: (String, ujson.Value), params: (String, ujson.Value)*) =
+      req
+      .header("Content-Type", "application/json")
+      .postData(ujson.Js.Obj(p, params:_*).toString)
+  }
+  implicit class AnyExtCfg[A](v: A) {
+    def let[T](fn: A => T) = fn(v)
   }
 }
 
